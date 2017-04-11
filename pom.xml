@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.mule.tooling.runtimes</groupId>
+    <artifactId>Runtimes</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>        
+        <tycho.version>0.24.0</tycho.version>        
+        <!-- This is done only for EE servers --> 
+        <mule.runtime.version>3.8.4</mule.runtime.version>       
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho.extras</groupId>
+                <artifactId>tycho-p2-extras-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>mirror</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>
+                        <!-- source repositories to mirror from -->
+                        <repository>
+                            <url>http://studio.mulesoft.org/r5/studio-runtimes/</url>
+                            <layout>p2</layout>
+                        </repository>
+                    </source>
+    
+                    <ius>
+                        <iu>
+                            <id>org.mule.tooling.server.${mule.runtime.version}.ee</id>
+                            <id>org.mule.tooling.extension.server.${mule.runtime.version}.ee.feature.jar</id>
+                            <id>org.mule.tooling.extension.server.${mule.runtime.version}.ee.feature.group</id>
+                        </iu>                    
+                    </ius>
+                    
+                    <destination>${project.build.directory}/repository</destination>                    
+                    
+                    <followStrictOnly>false</followStrictOnly>                    
+                    <includeOptional>true</includeOptional>                    
+                    <includeNonGreedy>true</includeNonGreedy>
+                    <latestVersionOnly>false</latestVersionOnly>                    
+                    <mirrorMetadataOnly>false</mirrorMetadataOnly>                    
+                    <compress>true</compress>                    
+                    <append>true</append>                    
+                    <includePacked>true</includePacked>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                  <execution>
+                    <phase>package</phase>
+                    <configuration>
+                        <target>
+                            <zip destfile="${project.build.directory}/update-site-${mule.runtime.version}.zip" basedir="${project.build.directory}/repository"/>
+                        </target>
+                    </configuration>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                  </execution>
+                </executions>
+      </plugin>
+
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>nexus.repository</id>
+            <name>Nexus Repository</name>
+            <layout>default</layout>
+            <url>http://repository-master.mulesoft.org/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>nexus.snapshots.repository</id>
+            <name>Nexus Snapshots Repository</name>
+            <layout>default</layout>
+            <url>http://repository-master.mulesoft.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>mule-ee-customer-releases</id>
+            <name>Mule EE Customer Releases</name>
+            <layout>default</layout>
+            <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases-ee/</url>
+        </repository>
+    </repositories>
+
+
+</project>
