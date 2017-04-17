@@ -6,7 +6,7 @@
     <groupId>org.mule.tooling.runtimes</groupId>
     <artifactId>Runtimes</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>eclipse-repository</packaging>
 
     <properties>        
         <tycho.version>0.24.0</tycho.version>        
@@ -17,6 +17,17 @@
 
     <build>
         <plugins>
+           <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho.extras</groupId>
                 <artifactId>tycho-p2-extras-plugin</artifactId>
@@ -65,7 +76,7 @@
                 <version>1.8</version>
                 <executions>
                   <execution>
-                    <phase>package</phase>
+                    <phase>install</phase>
                     <configuration>
                         <target>
                             <zip destfile="${project.build.directory}/update-site-${mule.runtime.version}.zip" basedir="${project.build.directory}/repository"/>
@@ -76,31 +87,29 @@
                     </goals>
                   </execution>
                 </executions>
-      </plugin>
-
+             </plugin>
+               <plugin>
+                    <groupId>org.eclipse.tycho</groupId>
+                    <artifactId>tycho-p2-publisher-plugin</artifactId>
+                    <version>${tycho.version}</version>
+                    <executions>
+                        <execution>
+                            <id>publish-categories</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>publish-categories</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
 
-    <repositories>
+   <repositories>
         <repository>
-            <id>nexus.repository</id>
-            <name>Nexus Repository</name>
-            <layout>default</layout>
-            <url>http://repository-master.mulesoft.org/nexus/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>nexus.snapshots.repository</id>
-            <name>Nexus Snapshots Repository</name>
-            <layout>default</layout>
-            <url>http://repository-master.mulesoft.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>mule-ee-customer-releases</id>
-            <name>Mule EE Customer Releases</name>
-            <layout>default</layout>
-            <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases-ee/</url>
+            <id>runtimes-updatesite</id>
+            <url>http://studio.mulesoft.org/r5/studio-runtimes/</url>
+            <layout>p2</layout>
         </repository>
     </repositories>
-
-
 </project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <feature id="org.mule.tooling.extension.server.3.8.4.ee">
+     <category name="org.mule.tooling.servers.ee"/>
+  </feature>
+   <category-def name="org.mule.tooling.servers.ee" label="Anypoint Studio Enterprise Runtimes">
+      <description>
+         Anypoint Studio Enterprise Runtimes
+      </description>
+   </category-def>
+</site>
+
+

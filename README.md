@@ -6,7 +6,8 @@ The current runtimes Update Site size is around the 5 GB which is too heavy to b
 # Use 
 
 * Clone this repo
-* Open the Pom.xml and set the property mule.runtime.version to the version of the runtime you would like to create the Private Update Site. 
+* Open the Pom.xml file and set the property [mule.runtime.version] to the version of the runtime you would like to create the Private Update Site.
+* Open the category.xml file and set feature [id="org.mule.tooling.extension.server.(version runtime).ee] to the version of the runtime you would like to create the Private Update Site. For instance: id="org.mule.tooling.extension.server.3.8.4.ee"
 * Go to the commanline and run: mvn package 
 
-In the Trarget you will have the uncompressed Update Site that you can test under the folder *repository* and the ziped Update Site to be sent under the file update-site-${runtime-version}.zip 
+In the Target you will have the uncompressed Update Site that you can test under the folder *repository* and the ziped Update Site to be sent under the file update-site-${runtime-version}.zip 
